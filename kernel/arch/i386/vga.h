@@ -1,5 +1,5 @@
-#ifndef ARCH_I386_VGA_H
-#define ARCH_I386_VGA_H
+#ifndef __INCLUDE_ARCH_I386_VGA_H
+#define __INCLUDE_ARCH_I386_VGA_H
 
 #include <stdint.h>
 
@@ -27,7 +27,7 @@ static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) {
 }
 
 static inline uint16_t vga_entry(unsigned char uc, uint8_t color) {
-    return (uint16_t) uc | (uint16_t) color << 8;
+    return (uint16_t)uc | (uint16_t)color << 8;
 }
 
-#endif
+#endif //__INCLUDE_ARCH_I386_VGA_H

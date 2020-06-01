@@ -3,7 +3,6 @@ HOST?=DEFAULT_HOST
 HOSTARCH!=../target-triplet-to-arch.sh $(HOST)
 
 CFLAGS?=-O2 -g
-CPPFLAGS?=
 LDFLAGS?=
 LIBS?=
 
@@ -13,19 +12,15 @@ EXEC_PREFIX?=$(PREFIX)
 INCLUDEDIR?=$(PREFIX)/include
 LIBDIR?=$(EXEC_PREFIX)/lib
 
-CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra -fstack-protector-all
-CPPFLAGS:=$(CPPFLAGS) -D__is_miku_libc -Iinclude
-LIBK_CFLAGS:=$(CFLAGS)
-LIBK_CPPFLAGS:=$(CPPFLAGS) -D__is_miku_libk
+CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra -fstack-protector-all -D__is_miku_libc -Iinclude
+LIBK_CFLAGS:=$(CFLAGS) -D__is_miku_libk
 
 ARCHDIR=arch/$(HOSTARCH)
 
 include $(ARCHDIR)/make.config
 
 CFLAGS:=$(CFLAGS) $(ARCH_CFLAGS)
-CPPFLAGS:=$(CPPFLAGS) $(ARCH_CPPFLAGS)
 LIBK_CFLAGS:=$(LIBK_CFLAGS) $(KERNEL_ARCH_CFLAGS)
-LIBK_CPPFLAGS:=$(LIBK_CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
 
 FREEOBJS=\
 $(ARCH_FREEOBJS) \
@@ -33,11 +28,63 @@ stdio/printf.o \
 stdio/putchar.o \
 stdio/puts.o \
 stdlib/abort.o \
+errno/errno.o \
+ctype/isalnum.o \
+ctype/isalpha.o \
+ctype/isascii.o \
+ctype/isblank.o \
+ctype/iscntrl.o \
+ctype/isdigit.o \
+ctype/isgraph.o \
+ctype/islower.o \
+ctype/isprint.o \
+ctype/ispunct.o \
+ctype/isspace.o \
+ctype/isupper.o \
+ctype/isxdigit.o \
+ctype/tolower.o \
+ctype/toupper.o \
+string/explicit_bzero.o \
+string/ffsll.o \
+string/ffsl.o \
+string/ffs.o \
+string/memccpy.o \
+string/memchr.o \
 string/memcmp.o \
 string/memcpy.o \
 string/memmove.o \
+string/memrchr.o \
 string/memset.o \
+string/stpcpy.o \
+string/stpncpy.o \
+string/strcasecmp.o \
+string/strcat.o \
+string/strchrnul.o \
+string/strchr.o \
+string/strcmp.o \
+string/strcoll.o \
+string/strcpy.o \
+string/strcspn.o \
+string/strerror.o \
+string/strerror_r.o \
+string/stresep.o \
+string/strlcat.o \
+string/strlcpy.o \
 string/strlen.o \
+string/strncasecmp.o \
+string/strncat.o \
+string/strncmp.o \
+string/strncpy.o \
+string/strnlen.o \
+string/strpbrk.o \
+string/strrchr.o \
+string/strsep.o \
+string/strspn.o \
+string/strstr.o \
+string/strtok.o \
+string/strtok_r.o \
+string/strverscmp.o \
+string/strxfrm.o \
 ssp/__stack_chk_fail.o \
 
 HOSTEDOBJS=\
@@ -64,16 +111,16 @@ libk.a: $(LIBK_OBJS)
 	$(AR) rcs $@ $(LIBK_OBJS)
 
 .c.o:
-	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS)
 
 .c.S:
-	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $< -o $@ $(CFLAGS)
 
 .c.libk.o:
-	$(CC) -MD -c $< -o $@ -std=gnu11 $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
+	$(CC) -MD -c $< -o $@ -std=gnu11 $(LIBK_CFLAGS)
 
 .S.libk.o:
-	$(CC) -MD -c $< -o $@ $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
+	$(CC) -MD -c $< -o $@ $(LIBK_CFLAGS)
 
 clean:
 	rm -f $(BINARIES) *.a

@@ -1,5 +1,5 @@
-#ifndef _STDIO_H
-#define _STDIO_H 1
+#ifndef __INCLUDE_STDIO_H
+#define __INCLUDE_STDIO_H
 
 #include <sys/cdefs.h>
 
@@ -17,4 +17,4 @@ int puts(const char*);
 }
 #endif
 
-#endif
+#endif //__INCLUDE_STDIO_H

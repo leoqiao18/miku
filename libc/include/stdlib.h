@@ -1,5 +1,5 @@
-#ifndef _STDLIB_H
-#define _STDLIB_H 1
+#ifndef __INCLUDE_STDIO_H
+#define __INCLUDE_STDIO_H
 
 #include <sys/cdefs.h>
 
@@ -7,11 +7,10 @@
 extern "C" {
 #endif
 
-__attribute__((__noreturn__))
-void abort(void);
+__attribute__((__noreturn__)) void abort(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif
+#endif //__INCLUDE_STDIO_H

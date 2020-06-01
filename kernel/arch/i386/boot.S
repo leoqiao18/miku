@@ -26,11 +26,6 @@ stack_top:
 _start:
     movl $stack_top, %esp
 
-int str_join(char *a,  const char *b) {
-   int sz =0; 
-   while(*a++) sz++;  
-   char *st = a -1, c;  
-
     # Call the global constructors.
     call _init
 

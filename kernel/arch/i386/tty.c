@@ -1,15 +1,14 @@
+#include <miku/kernel/tty.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
 
-#include <miku/kernel/tty.h>
-
 #include "vga.h"
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
-static uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000;
+static uint16_t* const VGA_MEMORY = (uint16_t*)0xB8000;
 
 static size_t terminal_row;
 static size_t terminal_column;
@@ -29,30 +28,59 @@ void terminal_initialize(void) {
     }
 }
 
-void terminal_setcolor(uint8_t color) {
+void terminal_set_color(uint8_t color) {
     terminal_color = color;
 }
 
-void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y) {
+void terminal_put_entry_at(unsigned char c, uint8_t color, size_t x, size_t y) {
     const size_t index = y * VGA_WIDTH + x;
     terminal_buffer[index] = vga_entry(c, color);
 }
 
-void terminal_putchar(char c) {
-    unsigned char uc = c;
-    terminal_putentryat(uc, terminal_color, terminal_column, terminal_row);
-    if (++terminal_column == VGA_WIDTH) {
+void terminal_shift_up(size_t n) {
+    if (n > VGA_HEIGHT) {
+        n = VGA_HEIGHT;
+    }
+
+    memmove(terminal_buffer, terminal_buffer + n * VGA_WIDTH, sizeof(terminal_buffer[0]) * (VGA_HEIGHT - n) * VGA_WIDTH);
+    for (size_t y = VGA_HEIGHT - n; y < VGA_HEIGHT; y++) {
+        for (size_t x = 0; x < VGA_WIDTH; x++) {
+            const size_t index = y * VGA_WIDTH + x;
+            terminal_buffer[index] = vga_entry(' ', terminal_color);
+        }
+    }
+}
+
+void terminal_prepare_new_entry() {
+    if (terminal_column >= VGA_WIDTH) {
         terminal_column = 0;
-        if (++terminal_row == VGA_HEIGHT)
-            terminal_row = 0;
+        terminal_row++;
+    }
+    if (terminal_row >= VGA_HEIGHT) {
+        terminal_shift_up(terminal_row - VGA_HEIGHT + 1);
+        terminal_row = VGA_HEIGHT - 1;
+    }
+}
+
+void terminal_put_char(char c) {
+    unsigned char uc = c;
+    switch (uc) {
+        case '\n':
+            terminal_column = 0;
+            terminal_row++;
+            break;
+        default:
+            terminal_prepare_new_entry();
+            terminal_put_entry_at(uc, terminal_color, terminal_column, terminal_row);
+            terminal_column++;
     }
 }
 
 void terminal_write(const char* data, size_t size) {
     for (size_t i = 0; i < size; i++)
-        terminal_putchar(data[i]);
+        terminal_put_char(data[i]);
 }
 
-void terminal_writestring(const char* data) {
+void terminal_write_string(const char* data) {
     terminal_write(data, strlen(data));
 }
