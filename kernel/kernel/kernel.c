@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include <kernel/tty.h>
+#include <miku/kernel/tty.h>
 
 void kernel_main(void) {
-	terminal_initialize();
-	printf("Hello, kernel World!\n");
+    terminal_initialize();
+    printf("Hello, kernel World!\n");
 }
