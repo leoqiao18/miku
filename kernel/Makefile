@@ -28,6 +28,8 @@ KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 kernel/kernel.o \
 kernel/libk.o \
+kernel/panic.o\
+kernel/printk.o
 
 OBJS=\
 $(ARCHDIR)/crti.o \

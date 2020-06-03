@@ -8,8 +8,8 @@
 #include <string.h>
 #include <wchar.h>
 
-char* __int_str(intmax_t i, char b[], int base, bool plusSignIfNeeded, bool spaceSignIfNeeded,
-                int paddingNo, bool justify, bool zeroPad) {
+static char* __int_str(intmax_t i, char b[], int base, bool plusSignIfNeeded, bool spaceSignIfNeeded,
+                       int paddingNo, bool justify, bool zeroPad) {
     char digit[32] = {0};
     memset(digit, 0, 32);
     strcpy(digit, "0123456789");
@@ -71,18 +71,18 @@ char* __int_str(intmax_t i, char b[], int base, bool plusSignIfNeeded, bool spac
     return b;
 }
 
-void displayCharacter(char c, int* a) {
+static void displayCharacter(char c, int* a) {
     putchar(c);
     *a += 1;
 }
 
-void displayString(char* c, int* a) {
+static void displayString(char* c, int* a) {
     for (int i = 0; c[i]; ++i) {
         displayCharacter(c[i], a);
     }
 }
 
-int vprintf(const char* format, va_list list) {
+__attribute__((format(printf, 1, 0))) int vprintf(const char* format, va_list list) {
     int chars = 0;
     char intStrBuffer[256] = {0};
 
@@ -172,8 +172,10 @@ int vprintf(const char* format, va_list list) {
                 ++i;
                 if (format[i] == 'h') {
                     length = 'H';
+                    ++i;
                 } else if (format[i] == 'l') {
                     length = 'q';
+                    ++i;
                 }
             }
             specifier = format[i];

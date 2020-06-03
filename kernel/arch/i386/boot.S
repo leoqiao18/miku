@@ -57,7 +57,13 @@ _start:
     call kernel_main
 
     # Hang if kernel_main unexpectedly returns.
-    cli
-1:	hlt
-    jmp 1b
+    jmp halt_kernel
 .size _start, . - _start
+
+.global halt_kernel
+.type halt_kernel, @function
+halt_kernel:
+	cli
+	hlt
+	jmp halt_kernel
+.size halt_kernel, . - halt_kernel
