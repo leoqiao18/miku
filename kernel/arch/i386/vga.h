@@ -1,5 +1,5 @@
-#ifndef __INCLUDE_ARCH_I386_VGA_H
-#define __INCLUDE_ARCH_I386_VGA_H
+#ifndef INCLUDE_MIKU_ARCH_I386_VGA_H
+#define INCLUDE_MIKU_ARCH_I386_VGA_H
 
 #include <stdint.h>
 
@@ -30,4 +30,4 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t color) {
     return (uint16_t)uc | (uint16_t)color << 8;
 }
 
-#endif //__INCLUDE_ARCH_I386_VGA_H
+#endif  //INCLUDE_MIKU_ARCH_I386_VGA_H

@@ -1,11 +1,19 @@
 #include <miku/kernel/tty.h>
+#include <stdint.h>
 #include <stdio.h>
 
+#ifdef __i386__
+#include <miku/arch/i386/gdt.h>
+#endif
+
+extern char g_length;
+
 void kernel_main(void) {
-    int j, k;
     terminal_initialize();
-    for (int i = -11; i < 1; i++) {
-        printf("%i Hello, kernel World!\n", i);
+#ifdef __i386__
+    printf("GDT entries:\n");
+    for (int i = 0; i < N_GDT_ENTRIES; i++) {
+        printf("\t%d: 0x%llX\n", i, gdt[i]);
     }
-    printf("pointer: %p %p\n", &j, &printf);
+#endif
 }

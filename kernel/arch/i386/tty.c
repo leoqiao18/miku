@@ -69,6 +69,9 @@ void terminal_put_char(char c) {
             terminal_column = 0;
             terminal_row++;
             break;
+        case '\t':
+            terminal_column = terminal_column + (8 - (terminal_column % 8));
+            break;
         default:
             terminal_prepare_new_entry();
             terminal_put_entry_at(uc, terminal_color, terminal_column, terminal_row);

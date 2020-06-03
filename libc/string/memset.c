@@ -3,9 +3,9 @@
  * Initializes a region of memory to a byte value.
  */
 
-#include <__/wordsize.h>
 #include <stdint.h>
 #include <string.h>
+#include <wordsize.h>
 
 void* memset(void* dest_ptr, int value, size_t length) {
     unsigned char* dest = (unsigned char*)dest_ptr;
