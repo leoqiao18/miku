@@ -51,5 +51,7 @@ extern uint64_t gdt[N_GDT_ENTRIES];
 
 uint64_t create_gdt_entry(uint32_t base, uint32_t limit, uint16_t flag);
 void gdt_init();
+/* from arch/i386/gdt_asm.S */
+void load_gdt();
 
 #endif

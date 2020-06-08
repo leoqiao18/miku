@@ -1,4 +1,5 @@
 #include <miku/arch/i386/gdt.h>
+#include <miku/arch/i386/io.h>
 
 uint64_t gdt[N_GDT_ENTRIES];
 uint16_t gdt_size_minus_one = sizeof(gdt) - 1;
@@ -9,6 +10,9 @@ void gdt_init() {
     gdt[2] = create_gdt_entry(0, 0x000FFFFF, (GDT_DATA_PL0));
     gdt[3] = create_gdt_entry(0, 0x000FFFFF, (GDT_CODE_PL3));
     gdt[4] = create_gdt_entry(0, 0x000FFFFF, (GDT_DATA_PL3));
+
+    // from arch/i386/gdt_asm.S
+    load_gdt();
 }
 
 uint64_t create_gdt_entry(uint32_t base, uint32_t limit, uint16_t flag) {
