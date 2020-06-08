@@ -49,7 +49,8 @@ _start:
 
 1:
     # Only map the kernel.
-    cmpl $(_kernel_start - 0xC0000000), %esi
+    # cmpl $(_kernel_start - 0xC0000000), %esi
+    cmpl $(0), %esi # TODO: currently is mapping all of [0, _kernel_end] to upper half
     jl 2f
     cmpl $(_kernel_end - 0xC0000000), %esi
     jge 3f
@@ -70,7 +71,8 @@ _start:
 
 3:
     # Map VGA video memory to 0xC03FF000 as "present, writable".
-    movl $(0x000B8000 | 0x003), boot_page_table1 - 0xC0000000 + 1023 * 4
+    # UPDATE: don't need anymore, because mapping the first 1MB to upper half as well
+    # movl $(0x000B8000 | 0x003), boot_page_table1 - 0xC0000000 + 1023 * 4
 
     # The page table is used at both page directory entry 0 (virtually from 0x0
     # to 0x3FFFFF) (thus identity mapping the kernel) and page directory entry
@@ -107,7 +109,7 @@ _start:
     movl %ecx, %cr3
 
     # Set up the stack.
-    mov $stack_top, %esp
+    movl $stack_top, %esp
 
     # Setup GDT (from arch/i386/gdt.c)
     call gdt_init
