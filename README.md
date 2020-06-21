@@ -11,3 +11,6 @@ Run the following to test with QEMU:
 
 # Platforms
 Currently only support x86 (32-bit).
+
+# Documentation
+Documentations are in `/Documentation` directory, written in Markdown.
