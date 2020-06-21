@@ -1,6 +1,6 @@
-#include <miku/arch/i386/io.h>
 #include <miku/arch/i386/kernel_layout.h>
-#include <miku/kernel/io.h>
+#include <miku/arch/i386/mem.h>
+#include <miku/kernel/mem.h>
 #include <miku/kernel/printk.h>
 
 unsigned long __kernel_virt_to_phys(void *address) {

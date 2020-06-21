@@ -1,5 +1,5 @@
-#ifndef __INCLUDE_ARCH_I386_GDT_H
-#define __INCLUDE_ARCH_I386_GDT_H
+#ifndef __INCLUDE_MIKU_ARCH_I386_GDT_H
+#define __INCLUDE_MIKU_ARCH_I386_GDT_H
 
 #include <stdint.h>
 
@@ -54,4 +54,4 @@ void gdt_init();
 /* from arch/i386/gdt_asm.S */
 void load_gdt();
 
-#endif
+#endif  // __INCLUDE_MIKU_ARCH_I386_GDT_H

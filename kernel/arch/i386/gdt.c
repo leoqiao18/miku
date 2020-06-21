@@ -1,5 +1,4 @@
 #include <miku/arch/i386/gdt.h>
-#include <miku/arch/i386/io.h>
 
 uint64_t gdt[N_GDT_ENTRIES];
 uint16_t gdt_size_minus_one = sizeof(gdt) - 1;
