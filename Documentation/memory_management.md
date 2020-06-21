@@ -6,8 +6,7 @@ Memory management in Miku mostly boils down to three main parts:
   2. Virtual memory address management
   3. Heap management
 
-## Memory map
-Before anything, we should look at the virtual memory layout in Miku.
+## Virtual Memory Map
 
 | Start      | End        | Size (MiB, KiB) | Description                 |
 | ---------- | ---------- | --------------- | --------------------------- |
